@@ -13,10 +13,10 @@ namespace Yathzee
 		
 
 		Dictionary<string, int> Results  = new Dictionary<string, int>();
-		internal string name;
-		public Player(string name)
+		internal string name { get; set; }
+		public Player()
 		{
-			this.name = name;
+			
 			Results.Add("Ones", 0);
 			Results.Add("Twos", 0);
 			Results.Add("Threes", 0);

@@ -62,5 +62,10 @@ namespace Yathzee
 
            
         }
+
+        public static implicit operator Die(List<Die> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
