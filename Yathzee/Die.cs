@@ -9,6 +9,10 @@ namespace Yathzee
     internal class Die
     {
         private int sides;
+        internal int ActiveNumber { get; set; }
+        internal bool IsSelected { get; set; }
+
+
         public Die()
         {
             this.sides= 6;
@@ -32,12 +36,26 @@ namespace Yathzee
             
                 switch (input)
                 {
-                    case 5:
+                case 1:
+                    output = " -------\n|       |\n|   *   |\n|       |\n -------";
+                    break;
+                case 2:
+                    output = " -------\n| *     |\n|       |\n|     * |\n -------";
+                    break;
+                case 3:
+                    output = " -------\n| *     |\n|   *   |\n|     * |\n -------";
+                    break;
+                case 4:
+                        output = " -------\n| *   * |\n|       |\n| *   * |\n -------";
+                        break;
+                case 5:
                         output = " -------\n| *   * |\n|   *   |\n| *   * |\n -------";
                         break;
-                   
-                        
-                }
+                    case 6:
+                        output = " -------"+ Environment.NewLine + "| *   * |"+ Environment.NewLine + "| *   * |"+ Environment.NewLine + "| *   * |"+ Environment.NewLine + " -------";
+                        break;
+
+            }
             
             return output;
             

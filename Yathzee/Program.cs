@@ -22,6 +22,9 @@ namespace Yathzee
             Console.WriteLine("Welcome! [Exit: esc | Start: Enter]");
             while (true)
             {
+                
+
+               
                
                 if (Console.KeyAvailable)
                 {
@@ -51,38 +54,98 @@ namespace Yathzee
             name = Console.ReadLine();
             Player player2 = new Player(name);
 
+            //make dices and put them in a list
+            Die die1= new Die();
+            Die die2= new Die();  
+            Die die3= new Die();
+            Die die4= new Die();
+            Die die5 = new Die();
+            var dice = new List<Die> {die1,die2, die3, die4, die5};
+            var savedDice = new List<Die> ();
+
+
+
+
             //game startet
             bool gameOver = false;
+            string activePlayer = player1.name;
             while (!gameOver) 
             {
-                Console.WriteLine("{0}'s turn. ", player1.name);
-                Console.WriteLine("[Exit: esc | See scoreboard: s | Roll Dices: Enter]");
-                bool keyPressed = false;
-                
-                while (keyPressed == false)
+                while (true)
                 {
-                   
-                    if (Console.KeyAvailable)
+                    Console.WriteLine("{0}'s turn. ", activePlayer);
+                    Console.WriteLine("[Exit: esc | See scoreboard: s | Roll Dices: Enter]");
+                    bool keyPressed = false;
+
+
+                    while (keyPressed == false)
                     {
-                        var key = Console.ReadKey(true);
 
-                        switch (key.Key)
+                        if (Console.KeyAvailable)
                         {
+                            var key = Console.ReadKey(true);
 
-                            case ConsoleKey.Escape:
-                                keyPressed = true;
-                                break;
-                            case ConsoleKey.S:
-                                player1.PrintScore();
-                                player2.PrintScore();
-                                keyPressed = true;
+                            switch (key.Key)
+                            {
 
-                                break;
+                                case ConsoleKey.Escape:
+                                    keyPressed = true;
+                                    break;
+                                case ConsoleKey.S:
+                                    player1.PrintScore();
+                                    player2.PrintScore();
+                                    keyPressed = true;
+
+                                    break;
+                                case ConsoleKey.Enter:
+                                    Console.Clear();
+                                    
+                                   
+                                    foreach (var die in dice)
+                                    {
+                                        if (die.IsSelected == false)
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.White;
+                                        }
+                                        else
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                        }
+                                        int randomNum = die.Roll();
+
+                                        Console.WriteLine(die.DisplayDie(randomNum));
+                                        Console.WriteLine(randomNum);
+                                    }
+                                    //chose dice to keep
+                                    while (keyPressed == false)
+                                    {
+
+                                        if (Console.KeyAvailable)
+                                        {
+                                            var key1 = Console.ReadKey(true);
+
+                                            switch (key1)
+                                            {
+                                                
+                                            }
+                                        }
+
+                                    }
+                                    break;
+                            }
                         }
+
                     }
-                   
+                    Console.ReadKey();
                 }
-                Console.ReadKey();
+                
+            }
+        }
+        public void RollDices(object[] dices)
+        {
+            foreach (object dice in dices)
+            {
+                
             }
         }
     }
