@@ -199,6 +199,12 @@ namespace Yathzee
                             }
                             break;
                         case "Yahtzee":
+                            if (Results["Yahtzee"] == 0)
+                            {
+                                valid = true;
+                                Results["Yahtzee"] = findYahtzee(dice);
+                            }
+                            
                             break;
                         case "chance":
                             if (Results["Chance"] == 0)
@@ -288,13 +294,17 @@ namespace Yathzee
                         output += i;
                     }
                 }
-                if (list[1] == list[2] - 1 && list[2] == list[3] - 1 && list[3] == list[4] - 1)
+                if(list.Count > 4)
+                {
+
+                if (list[1] == list[2] - 1 && list[2] == list[3] - 1 && list[3] == list[-1] - 1)
                 {
                     list.Remove(0);
                     foreach (int i in list)
                     {
                         output += i;
                     }
+                }
                 }
             }
 
