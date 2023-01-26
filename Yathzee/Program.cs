@@ -95,6 +95,8 @@ namespace Yathzee
 
                                     break;
                                 case ConsoleKey.Enter:
+                                    Console.WriteLine("The winnre is {0}. Congratulations", player1.name);
+
                                     StartRound();
                                     keyPressed= true;
                                     break;
@@ -106,6 +108,17 @@ namespace Yathzee
                     Console.ReadKey();
                 }
                 //calculate score and reset game
+                int player1Scoore = player1.Winner(player1);
+                int player2Scoore = player2.Winner(player2);
+                if(player1Scoore > player2Scoore)
+                {
+                   
+                    player1.PrintScore();
+                    player2.PrintScore();
+                    Console.ForegroundColor= ConsoleColor.White;
+                    Console.WriteLine("The winnre is {0}. Congratulations", player1.name);
+                }
+
             }
         }
         public static void StartRound()

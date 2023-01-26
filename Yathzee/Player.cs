@@ -65,7 +65,7 @@ namespace Yathzee
                 PrintScore();
                 Console.WriteLine("Where would you like to store your score?");
                 string gameSlot = Console.ReadLine();
-                if (new[] { "ones", "twos", "threes", "fours", "fives", "sixes", "toak", "foak", "fullstraight", "smallstraight","fullhouse", "yahtzee", "chance" }.Contains(gameSlot.ToLower()))
+                if (new[] { "ones", "twos", "threes", "fours", "fives", "sixes", "toak", "foak", "fullstraight", "smallstraight", "fullhouse", "yahtzee", "chance" }.Contains(gameSlot.ToLower()))
                 {
                     List<int> ints = new List<int>();
 
@@ -195,7 +195,7 @@ namespace Yathzee
                             if (Results["SmallStraight"] == 0)
                             {
                                 valid = true;
-                                Results["SullStraight"] = findSmallStright(dice);
+                                Results["SmallStraight"] = findSmallStright(dice);
                             }
                             break;
                         case "Yahtzee":
@@ -364,27 +364,41 @@ namespace Yathzee
         }
         internal int House(List<Die> dice)
         {
-            int output = 0; 
-            List<int>throws= new List<int>();
+            int output = 0;
+            List<int> throws = new List<int>();
             throws.Sort();
-            foreach(Die die in dice)
+            foreach (Die die in dice)
             {
                 throws.Add(die.ActiveNumber);
             }
             int first = throws.Count(X => X == throws[0]);
             int last = throws.Count(X => X == throws[4]);
-            if (last <=1 && first <=1 && first + last == 10)
+            if (last <= 1 && first <= 1 && first + last == 10)
             {
                 output = -1;
             }
-            
-            else if (first + last ==5)
+
+            else if (first + last == 5)
             {
                 output += first * throws[0];
                 output += last * throws[4];
             }
             else { output = -1; }
             return output;
+        }
+        internal int Winner( Player player)
+        {
+            int playerScore = 0;
+            foreach (var result in player.Results)
+            {
+                if (result.Value != -1)
+                {
+
+                    playerScore += result.Value;
+                }
+            }
+           
+            return playerScore;
         }
     }
 }
