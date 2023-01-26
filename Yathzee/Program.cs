@@ -32,25 +32,15 @@ namespace Yathzee
         public static Player activePlayer;
         static void Main(string[] args)
         {
-
-
-
-
             var random = new Random();
             Console.WriteLine("Welcome! [Exit: esc | Start: Enter]");
             while (true)
             {
-
-
-
-
                 if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(true);
-
                     switch (key.Key)
                     {
-
                         case ConsoleKey.Escape:
                             break;
                         case ConsoleKey.Enter:
@@ -60,7 +50,6 @@ namespace Yathzee
                             break;
                     }
                 }
-
             }
         }
         public static void SetupGame()
@@ -72,7 +61,6 @@ namespace Yathzee
             Console.WriteLine("Type name of Player2 ");
             name = Console.ReadLine();
             player2.name = name;
-
         }
         public static void PlayGame()
         {
@@ -81,21 +69,19 @@ namespace Yathzee
             activePlayer = player1;
             while (!gameOver)
             {
-
-                while (true)
+                int turns = 26;
+                while (turns > 0)
                 {
-                    Console.WriteLine("{0}'s turn. ", activePlayer);
+                    Console.Clear();
+                    Console.WriteLine("{0}'s turn. ", activePlayer.name);
                     Console.WriteLine("[Exit: esc | See scoreboard: s | Roll Dices: Enter]");
                     bool keyPressed = false;
-
                     //runs until key is pressed
                     while (keyPressed == false)
                     {
-
                         if (Console.KeyAvailable)
                         {
                             var key = Console.ReadKey(true);
-
                             switch (key.Key)
                             {
 
@@ -110,18 +96,16 @@ namespace Yathzee
                                     break;
                                 case ConsoleKey.Enter:
                                     StartRound();
+                                    keyPressed= true;
                                     break;
-
-
                             }
-                            //handle saved dice
-
+                           
                         }
 
                     }
                     Console.ReadKey();
                 }
-
+                //calculate score and reset game
             }
         }
         public static void StartRound()
@@ -131,13 +115,28 @@ namespace Yathzee
                 RollAllDice();
                 ChooseDiceToKeep();
             }
+            //Update player score and reset round
+            activePlayer.UpdateScore(savedDice);
+            if (activePlayer == player1)
+            {
+                activePlayer = player2;
+            }
+            else
+            {
+                activePlayer = player1;
+            }
+            dice.AddRange(savedDice);
+            savedDice.Clear();
+            foreach (Die die in dice)
+            {
+                die.IsSelected = false;
+            }
         }
         public static void RollAllDice()
         {
-
             Console.Clear();
-
             //roll all dice
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Active dice" + Environment.NewLine + "--------------------------------------");
             foreach (Die die in dice)
             {
@@ -170,7 +169,6 @@ namespace Yathzee
                 //what for keypress
                 while (selectMode)
                 {
-
                     if (Console.KeyAvailable)
                     {
                         var key1 = Console.ReadKey(true);
@@ -219,8 +217,6 @@ namespace Yathzee
                                 }
                                 if (updates > 0)
                                 {
-                                   
-                                   
                                     selectMode = false;
                                     selectMode1= false;
                                 }
@@ -228,46 +224,56 @@ namespace Yathzee
                                 {
                                     Console.WriteLine("Select at least 1 die to comtinue");
                                 }
-
                                 break;
                         }
-
                     }
-
                 }
-                //rerender dice
-                Console.Clear();
-                foreach (var die in dice)
+                RenderDice();
+            }
+            var updatedDice = new List<Die>();
+            //update saved dice
+            foreach (Die die in dice)
+            {
+
+                if (die.IsSelected)
                 {
-                    if (die.IsSelected == false)
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    }
-                    Console.WriteLine(die.DisplayDie(die.ActiveNumber));
+                    savedDice.Add(die);
+                    die.IsSelected = false;
                 }
-                var updatedDice = new List<Die>();
+                else
+                {
+                    updatedDice.Add(die);
+                }
+            }
+            dice = updatedDice;
+            RenderDice();
+        }
+        public static void RenderDice()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
 
-                //update saved dice
-                //foreach (die die in dice)
-                //{
+            Console.WriteLine("Active dice" + Environment.NewLine + "--------------------------------------");
+            foreach (var die in dice)
+            {
+                if (die.IsSelected == false)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                Console.WriteLine(die.DisplayDie(die.ActiveNumber));
+            }
+            //render save dice
+            Console.ForegroundColor = ConsoleColor.Green;
 
-                //    if (die.isselected)
-                //    {
-                //        saveddice.add(die);
-                //        die.isselected = false;
-                //    }
-                //    else
-                //    {
-                //        updateddice.add(die);
-                //    }
-                //}
-                //dice = updateddice;
+            Console.WriteLine("Saved dice" + Environment.NewLine + "--------------------------------------");
 
-                //selectmode1 = false;
+            foreach (Die die in savedDice)
+            {
+                Console.WriteLine(die.DisplayDie(die.ActiveNumber));
             }
         }
     }
