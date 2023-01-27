@@ -163,7 +163,8 @@ namespace Yathzee
                             }
                             break;
                         case "toak":
-                            if (Results["TFAK"] == 0)
+                            if (Results["TO" +
+                                "AK"] == 0)
                             {
                                 valid = true;
                                 Results["TOAK"] = findThreeOfAKind(dice, 3);
@@ -198,7 +199,7 @@ namespace Yathzee
                                 Results["SmallStraight"] = findSmallStright(dice);
                             }
                             break;
-                        case "Yahtzee":
+                        case "yahtzee":
                             if (Results["Yahtzee"] == 0)
                             {
                                 valid = true;
@@ -376,11 +377,12 @@ namespace Yathzee
         {
             int output = 0;
             List<int> throws = new List<int>();
-            throws.Sort();
             foreach (Die die in dice)
             {
                 throws.Add(die.ActiveNumber);
             }
+            throws.Sort();
+
             int first = throws.Count(X => X == throws[0]);
             int last = throws.Count(X => X == throws[4]);
             if (last <= 1 && first <= 1 && first + last == 10)

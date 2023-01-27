@@ -72,6 +72,7 @@ namespace Yathzee
                 int turns = 26;
                 while (turns > 0)
                 {
+                    turns--;
                     Console.Clear();
                     Console.WriteLine("{0}'s turn. ", activePlayer.name);
                     Console.WriteLine("[Exit: esc | See scoreboard: s | Roll Dices: Enter]");
@@ -110,15 +111,24 @@ namespace Yathzee
                 //calculate score and reset game
                 int player1Scoore = player1.Winner(player1);
                 int player2Scoore = player2.Winner(player2);
-                if(player1Scoore > player2Scoore)
+                player1.PrintScore();
+                player2.PrintScore();
+                if (player1Scoore > player2Scoore)
                 {
                    
-                    player1.PrintScore();
-                    player2.PrintScore();
+                   
                     Console.ForegroundColor= ConsoleColor.White;
                     Console.WriteLine("The winnre is {0}. Congratulations", player1.name);
                 }
-
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("The winnre is {0}. Congratulations", player2.name);
+                }
+                Console.WriteLine("Tap any key three times to comtinue.");
+                Console.ReadKey();
+                Console.ReadKey();
+                Console.ReadKey();
             }
         }
         public static void StartRound()
